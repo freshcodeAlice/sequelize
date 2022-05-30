@@ -38,11 +38,29 @@ module.exports.updateUser = async (req, res, next) => {
     params: { id }
   } = req;
   try {
-    const updatedUser = await User.update(body, {
+    const [rowCount, updatedUser] = await User.update(body, {
       where: {
         id: id
-      }
+      },
+      returning: ['id', 'first_name', 'last_name']
     });
+    // updatedUser.password = undefined;
+
+    res.status(200).send({ data: updatedUser });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.updateUserInstance = async (req, res, next) => {
+  const {
+    body,
+    params: { id }
+  } = req;
+  try {
+    const user = await User.findByPK(id);
+    const updatedUser = await user.update(body);
+
     res.status(200).send({ data: updatedUser });
   } catch (error) {
     next(error);
