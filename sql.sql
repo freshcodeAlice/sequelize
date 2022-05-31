@@ -66,7 +66,9 @@ CREATE TABLE users(
 
 
 
-
+SELECT * FROM users
+JOIN users_to_groups ON users.id = users_to_groups.user_id
+WHERE users.id = 100500
 
 
 
