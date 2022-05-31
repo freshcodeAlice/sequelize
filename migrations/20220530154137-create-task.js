@@ -17,7 +17,9 @@ module.exports = {
             tableName: 'users',
             key: 'id'
           }
-        }
+        },
+        onDelete: 'cascade',
+        onUpdate: 'restrict'
       },
       body: {
         allowNull: false,
