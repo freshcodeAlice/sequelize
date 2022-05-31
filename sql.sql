@@ -49,3 +49,30 @@ Model.findAll({
 })
 
 */
+
+
+
+
+CREATE TABLE users(
+    id serial PRIMARY KEY ON DELETE SET NULL,
+    first_name varchar(215) ON UPDATE SET NULL
+    );
+
+    CREATE TABLE orders(
+        id serial PRIMARY KEY,
+        user_id REFERENCES users(id) 
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
