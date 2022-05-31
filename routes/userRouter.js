@@ -1,12 +1,13 @@
 const { Router } = require('express');
 const UserController = require('../controllers/User.controller');
+const pagination = require('../mw/pagination.mw');
 
 const { checkUser } = require('../mw/user.mw');
 
 const userRouter = Router();
 
 userRouter.post('/', UserController.createUser);
-userRouter.get('/', UserController.getAllUsers);
+userRouter.get('/', pagination, UserController.getAllUsers);
 userRouter.get('/:id', UserController.getUser);
 userRouter.delete('/:id', UserController.deleteUser);
 userRouter.put('/:id', checkUser, UserController.updateUserInstance);
