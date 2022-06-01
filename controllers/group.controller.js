@@ -34,3 +34,34 @@ module.exports.getUserGroups = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.addUserGroup = async (req, res, next) => {
+  try {
+    const {
+      body: { userId },
+      params: { groupId }
+    } = req;
+    const userInstance = await User.findByPk(userId);
+    const groupInstance = await Group.findByPk(groupId);
+    groupInstance.addUser(userInstance);
+
+    const groupWithUsers = await Group.findAll({
+      where: {
+        id: groupId
+      },
+      include: [
+        {
+          model: User,
+          through: {
+            attributes: []
+          }
+        }
+      ],
+      attributes: {
+        exclude: ['password']
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
