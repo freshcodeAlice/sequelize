@@ -65,3 +65,41 @@ module.exports.addUserGroup = async (req, res, next) => {
     next(err);
   }
 };
+
+/*
+{
+    "fieldname": "image" -- имя инпута, который отправляет файл и mw его получила
+    "originalname": "art.png",
+    "encoding": "7bit",
+    "mimetype": "image/png",
+    "destination": "C:\\Users\\Сергей\\Desktop\\ALICE\\sequelize\\public\\images",
+    "filename": "437ff3842044fc5a2cbbed4108a56597",
+    "path": "C:\\Users\\Сергей\\Desktop\\ALICE\\sequelize\\public\\images\\437ff3842044fc5a2cbbed4108a56597",
+    "size": 146878
+}
+
+
+
+*/
+
+module.exports.createImage = async (req, res, next) => {
+  try {
+    const {
+      file: { filename },
+      params: { groupId }
+    } = req;
+    const [count, [updatedGroup]] = await Group.update(
+      { imagePath: filename },
+      {
+        where: {
+          id: groupId
+        },
+        returning: true
+      }
+    );
+
+    res.send(updatedGroup);
+  } catch (err) {
+    next(err);
+  }
+};

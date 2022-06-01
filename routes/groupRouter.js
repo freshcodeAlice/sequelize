@@ -1,9 +1,27 @@
 const { Router } = require('express');
 const GroupController = require('../controllers/group.controller');
+const multer = require('multer');
+const path = require('path');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.resolve(__dirname, '../public/images'));
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}.${file.originalname}`);
+  }
+});
+
+const upload = multer({ storage });
 
 const groupRouter = Router();
 
 groupRouter.post('/', GroupController.createUserGroup);
+groupRouter.post(
+  '/:groupId/image',
+  upload.single('image'),
+  GroupController.createImage
+);
 groupRouter.get('/:userId', GroupController.getUserGroups);
 groupRouter.put('/:groupId', GroupController.addUserGroup);
 
