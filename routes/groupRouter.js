@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const GroupController = require('../controllers/group.controller');
 const multer = require('multer');
+const {STATIC_PATH} = require('../config');
 const path = require('path');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.resolve(__dirname, '../public/images'));
+    cb(null, STATIC_PATH);
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}.${file.originalname}`);
