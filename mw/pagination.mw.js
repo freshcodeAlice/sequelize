@@ -15,6 +15,7 @@ param2: val2
       limit: limit > 50 || limit <= 0 ? 50 : limit,
       offset: offset <= 0 ? 0 : offset
     };
+    next();
   } catch (err) {
     next(err);
   }
