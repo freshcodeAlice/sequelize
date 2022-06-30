@@ -32,9 +32,32 @@ describe('create new user', () => {
         const response = await appRequest.post('/api/users/').send(user);
         expect(response.statusCode).toBe(201);
         expect(bodySchema.isValidSync(response.body)).toBe(true);
-    })
-})
+    });
+    test('create empty user expect 400', async () => {
+        const response = await appRequest.post('/api/users/').send({});
+        expect(response.statusCode).toBe(400);
+    });
+    test('user create again expect 409', async () => {
+        const response = await appRequest.post('/api/users/').send(user);
+        expect(response.statusCode).toBe(409);
+    });
+});
 
+// Get user:
+/// get user by id expect 200 successfully
+/// get user by absand id expect 404
+
+describe('get user', () => {
+    test('get user succesfully expect 200', async () => {
+        const response = await appRequest.get('/api/users/1');
+        expect(response.statusCode).toBe(200);
+        expect(bodySchema.isValidSync(response.body)).toBe(true);
+    });
+    test(' user by absand id expect 404', async () => {
+        const response = await appRequest.get('/api/users/125');
+        expect(response.statusCode).toBe(404);
+    });
+});
 
 
 afterAll(() => {
